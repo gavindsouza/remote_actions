@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include remote_actions *.css
+recursive-include remote_actions *.csv
+recursive-include remote_actions *.html
+recursive-include remote_actions *.ico
+recursive-include remote_actions *.js
+recursive-include remote_actions *.json
+recursive-include remote_actions *.md
+recursive-include remote_actions *.png
+recursive-include remote_actions *.py
+recursive-include remote_actions *.svg
+recursive-include remote_actions *.txt
+recursive-exclude remote_actions *.pyc
