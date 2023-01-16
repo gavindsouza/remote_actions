@@ -9,6 +9,7 @@ readme = "README.md"
 dynamic = ["version"]
 dependencies = [
     # Core dependencies
+    "pymssql~=2.2.7",
 ]
 
 [build-system]
