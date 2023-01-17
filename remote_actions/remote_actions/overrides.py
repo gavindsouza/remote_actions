@@ -51,14 +51,8 @@ class RemoteConnection:
 class CustomLabTest(LabTest):
     REMOTE_VIEW_SQL = """
     SELECT
-        dbo.view_analyte_result.test_ID AS Test_ID,
-        dbo.view_patient.gx_patient_id,
-        dbo.view_test.sample_ID,
         dbo.view_analyte.analyte_name,
-        dbo.view_analyte_result.cycle_threshold AS Ct,
-        dbo.view_analyte_result.endpoint AS EndPt,
-        dbo.view_analyte_result.result AS [Analyte Result],
-        dbo.view_analyte_result.probe_check_result
+        dbo.view_analyte_result.result AS analyte_result
     FROM
         dbo.view_patient_test_order
         INNER JOIN dbo.view_analyte_result
