@@ -2,6 +2,7 @@ from io import StringIO
 
 import frappe
 from frappe import _
+from frappe.core.utils import find
 from frappe.desk.form.save import send_updated_docs
 from frappe.utils import now
 from healthcare.healthcare.doctype.lab_test.lab_test import LabTest
@@ -90,18 +91,11 @@ class CustomLabTest(LabTest):
         frappe.msgprint(_("Test results synced"), alert=True)
         send_updated_docs(self)
 
-    def update_from_remote_values(self, remote_values):
-        # TODO: Update child table values
-        for data in remote_values:
-            # data:  {'Test_ID': 4355,
-            #     'gx_patient_id': '058246',
-            #     'sample_ID': 'GAVIN RSIM',
-            #     'analyte_name': 'AC-2',
-            #     'Ct': 0.0,
-            #     'EndPt': 0.0,
-            #     'Analyte Result': 9,
-            #     'probe_check_result': 9}
-            ...
+    def update_from_remote_values(self, remote_values: list[dict]):
+        for normal_test_item in self.normal_test_items:
+            normal_test_item.result_value = find(
+                remote_values, lambda x: x["analyte_name"] == normal_test_item.lab_test_name
+            )["analyte_result"]
 
     def fetch_patient_tests_details(self, patient_id: str) -> list[dict]:
         with RemoteConnection() as remote:
