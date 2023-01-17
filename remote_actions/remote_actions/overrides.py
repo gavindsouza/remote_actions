@@ -12,7 +12,7 @@ try:
 except ImportError:
     from erpnext.healthcare.doctype.lab_test.lab_test import LabTest
 
-from lxml.etree import ElementTree
+from xml.etree import ElementTree
 
 
 class RemoteConnectionNotSetError(frappe.ValidationError):
