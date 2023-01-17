@@ -95,9 +95,11 @@ class CustomLabTest(LabTest):
 
     def update_from_remote_values(self, remote_values: List[Dict]):
         for normal_test_item in self.normal_test_items:
-            normal_test_item.result_value = find(
+            result_value = find(
                 remote_values, lambda x: x["analyte_name"] == normal_test_item.lab_test_name
-            )["analyte_result"]
+            )
+            if result_value:
+                normal_test_item.result_value = result_value["analyte_result"]
 
     def fetch_patient_tests_details(self, patient_id: str) -> List[Dict]:
         with RemoteConnection() as remote:
