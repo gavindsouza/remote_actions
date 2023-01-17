@@ -6,7 +6,12 @@ from frappe import _
 from frappe.core.utils import find
 from frappe.desk.form.save import send_updated_docs
 from frappe.utils import now
-from healthcare.healthcare.doctype.lab_test.lab_test import LabTest
+
+try:
+    from healthcare.healthcare.doctype.lab_test.lab_test import LabTest
+except ImportError:
+    from erpnext.healthcare.doctype.lab_test.lab_test import LabTest
+
 from lxml.etree import ElementTree
 
 
