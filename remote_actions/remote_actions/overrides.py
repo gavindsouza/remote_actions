@@ -1,4 +1,5 @@
 from io import StringIO
+from typing import Dict, List, Optional, Tuple, Union
 
 import frappe
 from frappe import _
@@ -30,7 +31,9 @@ class RemoteConnection:
             self._connection = self.get_remote_connection()
         return self._connection
 
-    def sql(self, sql: str, values):
+    def sql(self, sql: str, values: Optional[Union[Dict, Tuple]] = None):
+        if values is None:
+            values = {}
         self.cursor.execute(sql, values)
         return self.cursor.fetchall()
 
@@ -85,13 +88,13 @@ class CustomLabTest(LabTest):
         frappe.msgprint(_("Test results synced"), alert=True)
         send_updated_docs(self)
 
-    def update_from_remote_values(self, remote_values: list[dict]):
+    def update_from_remote_values(self, remote_values: List[Dict]):
         for normal_test_item in self.normal_test_items:
             normal_test_item.result_value = find(
                 remote_values, lambda x: x["analyte_name"] == normal_test_item.lab_test_name
             )["analyte_result"]
 
-    def fetch_patient_tests_details(self, patient_id: str) -> list[dict]:
+    def fetch_patient_tests_details(self, patient_id: str) -> List[Dict]:
         with RemoteConnection() as remote:
             return remote.sql(self.REMOTE_VIEW_SQL, {"patient_id": patient_id})
 
