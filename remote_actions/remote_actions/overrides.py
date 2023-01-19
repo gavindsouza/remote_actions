@@ -98,7 +98,7 @@ class CustomLabTest(LabTest):
             result_value = find(
                 remote_values, lambda x: x["analyte_name"] == normal_test_item.lab_test_name
             )
-            if result_value:
+            if result_value is not None:
                 normal_test_item.result_value = result_value["Ct"]
 
     def fetch_patient_tests_details(self, patient_id: str) -> List[Dict]:
