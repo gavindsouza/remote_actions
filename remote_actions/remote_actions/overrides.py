@@ -111,7 +111,10 @@ class CustomLabTest(LabTest):
         if Result_Key:
             Result_Key.result_value = result_text[0]
         if Result_Text:
-            Result_Text.result_value = result_text[1]
+            if result_text[0].strip().upper() == "MTB NOT DETECTED":
+                Result_Text.result_value = "NORMAL"
+            else:
+                Result_Text.result_value = result_text[1]
 
     def fetch_patient_tests_details(self, patient_id: str) -> List[Dict]:
         with RemoteConnection() as remote:
