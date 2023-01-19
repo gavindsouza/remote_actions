@@ -60,7 +60,7 @@ class CustomLabTest(LabTest):
     REMOTE_VIEW_SQL = """
     SELECT
         dbo.view_analyte.analyte_name,
-        dbo.view_analyte_result.result AS analyte_result
+        dbo.view_analyte_result.cycle_threshold AS Ct
     FROM
         dbo.view_patient_test_order
         INNER JOIN dbo.view_analyte_result
@@ -99,7 +99,7 @@ class CustomLabTest(LabTest):
                 remote_values, lambda x: x["analyte_name"] == normal_test_item.lab_test_name
             )
             if result_value:
-                normal_test_item.result_value = result_value["analyte_result"]
+                normal_test_item.result_value = result_value["Ct"]
 
     def fetch_patient_tests_details(self, patient_id: str) -> List[Dict]:
         with RemoteConnection() as remote:
