@@ -104,8 +104,8 @@ class CustomLabTest(LabTest):
                 normal_test_item.result_value = result_value["Ct"]
 
         # set result key and result text
-        Result_Key = find(self.normal_test_items, lambda x: x.lab_test_name == "Result Key")
-        Result_Text = find(self.normal_test_items, lambda x: x.lab_test_name == "Result Text")
+        Result_Key = find(self.normal_test_items, lambda x: x.lab_test_name == "Result_Key")
+        Result_Text = find(self.normal_test_items, lambda x: x.lab_test_name == "Result_Text")
         result_text = remote_values[0]["result_text"].split("|")
 
         if Result_Key:
