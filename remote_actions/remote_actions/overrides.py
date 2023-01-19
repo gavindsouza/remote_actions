@@ -60,7 +60,8 @@ class CustomLabTest(LabTest):
     REMOTE_VIEW_SQL = """
     SELECT
         dbo.view_analyte.analyte_name,
-        dbo.view_analyte_result.cycle_threshold AS Ct
+        dbo.view_analyte_result.cycle_threshold AS Ct,
+        dbo.view_test.result_text
     FROM
         dbo.view_patient_test_order
         INNER JOIN dbo.view_analyte_result
@@ -94,12 +95,23 @@ class CustomLabTest(LabTest):
         send_updated_docs(self)
 
     def update_from_remote_values(self, remote_values: List[Dict]):
+        # set Ct column values
         for normal_test_item in self.normal_test_items:
             result_value = find(
                 remote_values, lambda x: x["analyte_name"] == normal_test_item.lab_test_name
             )
             if result_value is not None:
                 normal_test_item.result_value = result_value["Ct"]
+
+        # set result key and result text
+        Result_Key = find(self.normal_test_items, lambda x: x.lab_test_name == "Result Key")
+        Result_Text = find(self.normal_test_items, lambda x: x.lab_test_name == "Result Text")
+        result_text = remote_values[0]["result_text"].split("|")
+
+        if Result_Key:
+            Result_Key.result_value = result_text[0]
+        if Result_Text:
+            Result_Text.result_value = result_text[1]
 
     def fetch_patient_tests_details(self, patient_id: str) -> List[Dict]:
         with RemoteConnection() as remote:
